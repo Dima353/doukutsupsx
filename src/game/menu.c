@@ -167,9 +167,9 @@ static inline void menu_draw_tooltip(void) {
   const int y = VID_HEIGHT - GFX_FONT_HEIGHT - 16 + main_tip_y;
   if (main_tip_y) main_tip_y -= 2;
   gfx_draw_texrect(&rc_padbuttons[btn_cancel], GFX_LAYER_FRONT, VID_WIDTH / 2 - 10 * GFX_FONT_WIDTH - 2, y);
-  draw_string_shadow("Cancel", main_tip_rgb, VID_WIDTH / 2 - 8 * GFX_FONT_WIDTH, y);
+  draw_string_shadow("OTMEHA", main_tip_rgb, VID_WIDTH / 2 - 8 * GFX_FONT_WIDTH, y);
   gfx_draw_texrect(&rc_padbuttons[btn_ok], GFX_LAYER_FRONT, VID_WIDTH / 2 + 2 * GFX_FONT_WIDTH + 2, y);
-  draw_string_shadow("Select", main_tip_rgb, VID_WIDTH / 2 + 4 * GFX_FONT_WIDTH + 4, y);
+  draw_string_shadow("BraOP", main_tip_rgb, VID_WIDTH / 2 + 4 * GFX_FONT_WIDTH + 4, y);
 }
 
 /* default func */
@@ -184,7 +184,7 @@ static void menu_null(void) {
 #define MAIN_TOP 40
 
 static void menu_title_open(void) {
-  static const char *submenu_text[3] = { "New", "Load", "Options" };
+  static const char *submenu_text[3] = { "HOBAv gbPA", "fAbPkfgTs", "HACTPOhKg" };
   main_count = 3;
   main_sel = 0;
   main_choices = submenu_text;
@@ -226,7 +226,7 @@ static void menu_title_draw(void) {
 /* pause */
 
 static const char *str_pause[] = {
-  "Resume", "Options", "Quit",
+  "jPOcOiegTs", "OHACTPOhKg", "BrXOc",
 };
 
 static void menu_pause_open(void) {
@@ -704,9 +704,9 @@ static struct {
   } slots[MCRD_MAX_SAVES];
 } saveload;
 
-static const char *str_yesno[] = { "Yes", "No" };
+static const char *str_yesno[] = { "cA", "HET" };
 static const char *str_ok[] = { "OK" };
-static const char *str_memcard[] = { "Memory Card 1", "Memory Card 2" };
+static const char *str_memcard[] = { "KAPTA jAMvTg 1", "KAPTA jAMvTg 2" };
 
 static inline void menu_saveload_set_state(const int state, const char *title, const int num_choices) {
   saveload.state = state;
@@ -724,11 +724,11 @@ static void menu_saveload_open(void) {
   saveload.num_cards = mcrd_cards_available(saveload.cards);
 
   if (saveload.num_cards) {
-    menu_saveload_set_state(SLSTATE_SELECT_MEMCARD, "Select Memory Card", saveload.num_cards);
+    menu_saveload_set_state(SLSTATE_SELECT_MEMCARD, "BraOP KAPTr jAMvTg", saveload.num_cards);
     // skip memcard 1 if we don't have it
     main_choices = &str_memcard[(saveload.cards[0].port == 1)];
   } else {
-     menu_saveload_set_state(SLSTATE_NO_MEMCARDS, "No Memory Cards detected.", 1);
+     menu_saveload_set_state(SLSTATE_NO_MEMCARDS, "KAPTA jAMvTg HE OaHAPkeEHA.", 1);
   }
 }
 
@@ -795,15 +795,15 @@ static inline void menu_saveload_act_select_memcard(const u32 btn) {
   if (res == MCRD_UNFORMATTED) {
     // card is unformatted; if we're saving, offer to format it
     if (menu_id == MENU_SAVE)
-      menu_saveload_set_state(SLSTATE_FORMAT, "Card is not formatted. Format?", 2);
+      menu_saveload_set_state(SLSTATE_FORMAT, "KHEOaXOcgMO OTrOPMATgPOBATs KAPTk. BrjOiHgTs?", 2);
     else
-      menu_saveload_set_state(SLSTATE_ERROR, "Card is not formatted.", 1);
+      menu_saveload_set_state(SLSTATE_ERROR, "HEOaXOcgMO OTlOPMATgPOBATs KAPTk.", 1);
     return;
   }
 
   if (res != MCRD_SUCCESS) {
     // error detecting card
-    menu_saveload_set_state(SLSTATE_ERROR, "Could not read card.", 1);
+    menu_saveload_set_state(SLSTATE_ERROR, "OogaKA nTEHgv KAPTr.", 1);
     return;
   }
 
@@ -817,7 +817,7 @@ static inline void menu_saveload_act_select_memcard(const u32 btn) {
 
   if (res != MCRD_SUCCESS) {
     const char *err = (menu_id == MENU_SAVE) ?
-      "Could not write save file." : "No save files on this card.";
+      "OogaKA fAjgCg HA KAPTk." : "cAHHrE HA KAPTE HE OaHAPkeEHr.";
     menu_saveload_set_state(SLSTATE_ERROR, err, 1);
     return;
   }
@@ -826,22 +826,22 @@ static inline void menu_saveload_act_select_memcard(const u32 btn) {
 
   // can't load anything off of an empty save
   if (menu_id == MENU_LOAD && !saveload.slot_mask) {
-    menu_saveload_set_state(SLSTATE_ERROR, "No save files on this card.", 1);
+    menu_saveload_set_state(SLSTATE_ERROR, "cAHHrE HA KAPTE HE OaHAPkeEHr.", 1);
     return;
   }
 
-  menu_saveload_set_state(SLSTATE_SELECT_SAVE, "Select File", MCRD_MAX_SAVES);
+  menu_saveload_set_state(SLSTATE_SELECT_SAVE, "BraOP lAhiA", MCRD_MAX_SAVES);
 }
 
 static inline void menu_saveload_do_load(const int slot) {
   mcrd_result_t res = mcrd_save_read_slot(slot, &profile, sizeof(profile));
   if (res != MCRD_SUCCESS)  {
     // write error; bail
-    menu_saveload_set_state(SLSTATE_ERROR, "Could not write save file.", 1);
+    menu_saveload_set_state(SLSTATE_ERROR, "OogaKA fAjgCg HA KAPTk.", 1);
   } else {
     // try to actually load the game
     if (!profile_load(TRUE))
-      menu_saveload_set_state(SLSTATE_ERROR, "Invalid save file.", 1);
+      menu_saveload_set_state(SLSTATE_ERROR, "cAHHrE jOBPEecEHr.", 1);
     else
       menu_saveload_close(TRUE);
   }
@@ -851,7 +851,7 @@ static inline void menu_saveload_do_save(const int slot) {
   mcrd_result_t res = mcrd_save_write_slot(slot, &profile, sizeof(profile));
   if (res != MCRD_SUCCESS) {
     // write error
-    menu_saveload_set_state(SLSTATE_ERROR, "Could not write save file.", 1);
+    menu_saveload_set_state(SLSTATE_ERROR, "OogaKA fAjgCg HA KAPTk.", 1);
   } else {
     // success; let the "Game saved" TSC message play out
     menu_saveload_close(TRUE);
@@ -867,7 +867,7 @@ static inline void menu_saveload_act_select_save(const u32 btn) {
 
   if (btn == IN_CANCEL) {
     // go back to memcard selection
-    menu_saveload_set_state(SLSTATE_SELECT_MEMCARD, "Select Memory Card", saveload.num_cards);
+    menu_saveload_set_state(SLSTATE_SELECT_MEMCARD, "OogaKA fAjgCg HA KAPTk", saveload.num_cards);
     // skip memcard 1 if we don't have it
     main_choices = &str_memcard[(saveload.cards[0].port == 1)];
     return;
@@ -881,7 +881,7 @@ static inline void menu_saveload_act_select_save(const u32 btn) {
     if (occupied) {
       // trying to save over a slot; ask the user
       saveload.slot_to_save = main_sel;
-      menu_saveload_set_state(SLSTATE_OVERWRITE, "Overwrite this file?", 2);
+      menu_saveload_set_state(SLSTATE_OVERWRITE, "fAMEHgTs cAHHrE?", 2);
     } else {
       // saving over an empty slot; all is well
       menu_saveload_do_save(main_sel);
@@ -908,7 +908,7 @@ static void menu_saveload_act(void) {
         menu_saveload_do_save(saveload.slot_to_save);
       } else if (btn == IN_CANCEL || (btn == IN_OK && main_sel == 1)) {
         // go back to save selection
-        menu_saveload_set_state(SLSTATE_SELECT_SAVE, "Select File", MCRD_MAX_SAVES);
+        menu_saveload_set_state(SLSTATE_SELECT_SAVE, "BraEPgTE lAhi", MCRD_MAX_SAVES);
       }
       break;
     case SLSTATE_FORMAT:
@@ -916,12 +916,12 @@ static void menu_saveload_act(void) {
         // user pressed yes, format that shit
         mcrd_result_t res = mcrd_card_format();
         if (res != MCRD_SUCCESS)
-          menu_saveload_set_state(SLSTATE_ERROR, "Could not format card.", 1);
+          menu_saveload_set_state(SLSTATE_ERROR, "HE kcAiOCs OTlOPMATgPOBATs KAPTk.", 1);
         else
-          menu_saveload_set_state(SLSTATE_SELECT_SAVE, "Select File", MCRD_MAX_SAVES);
+          menu_saveload_set_state(SLSTATE_SELECT_SAVE, "BraOP lAhiA", MCRD_MAX_SAVES);
       } else if (btn == IN_CANCEL || (btn == IN_OK && main_sel == 1)) {
         // go back to memcard selection
-        menu_saveload_set_state(SLSTATE_SELECT_MEMCARD, "Select Memory Card", saveload.num_cards);
+        menu_saveload_set_state(SLSTATE_SELECT_MEMCARD, "BraOP KAPTr jAMvTg", saveload.num_cards);
         // skip memcard 1 if we don't have it
         main_choices = &str_memcard[(saveload.cards[0].port == 1)];
       }
@@ -949,10 +949,10 @@ static inline void menu_saveload_draw_select_save(void) {
 
     if (!(saveload.slot_mask & (1 << i))) {
       // slot is empty
-      draw_string_centered("EMPTY FILE", NULL, VID_WIDTH / 2, yofs + 10);
+      draw_string_centered("jkCTO", NULL, VID_WIDTH / 2, yofs + 10);
     } else if (saveload.slots[i].max_life <= 0) {
       // corrupted save?
-      draw_string_centered("CORRUPTED FILE", NULL, VID_WIDTH / 2, yofs + 10);
+      draw_string_centered("lAhi jOBPEecdH", NULL, VID_WIDTH / 2, yofs + 10);
     } else {
       // draw stage name
       draw_string_shadow(saveload.slots[i].stage, NULL, TEXT_BOX_LEFT + 30, yofs + 10);
@@ -1022,16 +1022,16 @@ static const struct option {
   s32 max;
   s32 def;
 } options[] = {
-  { OPT_SEP,    "Audio",         NULL,             0,  0            },
-  { OPT_SCROLL, "Sound volume",  &optmenu.vol_sfx, 8,  8            },
-  { OPT_SCROLL, "Music volume",  &optmenu.vol_org, 8,  6            },
-  { OPT_SEP,    "Controls",      NULL,             0,  0            },
-  { OPT_BIND,   "Jump",          &input_binds[4],  0,  PAD_CROSS    },
-  { OPT_BIND,   "Fire",          &input_binds[5],  0,  PAD_SQUARE   },
-  { OPT_BIND,   "Prev weapon",   &input_binds[6],  0,  PAD_TRIANGLE },
-  { OPT_BIND,   "Next weapon",   &input_binds[7],  0,  PAD_CIRCLE   },
-  { OPT_BIND,   "Accept button", &input_binds[10], 11, PAD_CROSS    },
-  { OPT_BIND,   "Cancel button", &input_binds[11], 10, PAD_CIRCLE   },
+  { OPT_SEP,    "fBkK",         NULL,             0,  0            },
+  { OPT_SCROLL, "bPOMKOCTs fBkKA",  &optmenu.vol_sfx, 8,  8            },
+  { OPT_SCROLL, "bPOMKOCTs MkfrKg",  &optmenu.vol_org, 8,  6            },
+  { OPT_SEP,    "kjPABiEHgE",      NULL,             0,  0            },
+  { OPT_BIND,   "jPreOK",          &input_binds[4],  0,  PAD_CROSS    },
+  { OPT_BIND,   "ObOHs",          &input_binds[5],  0,  PAD_SQUARE   },
+  { OPT_BIND,   "jPEc. OPkegE",   &input_binds[6],  0,  PAD_TRIANGLE },
+  { OPT_BIND,   "CiEc. OPkegE",   &input_binds[7],  0,  PAD_CIRCLE   },
+  { OPT_BIND,   "KHOjKA jPgHvTs", &input_binds[10], 11, PAD_CROSS    },
+  { OPT_BIND,   "KHOjKA fAKPrTs", &input_binds[11], 10, PAD_CIRCLE   },
 };
 
 static void menu_options_open(void) {
