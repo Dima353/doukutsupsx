@@ -226,7 +226,7 @@ static void menu_title_draw(void) {
 /* pause */
 
 static const char *str_pause[] = {
-  "jPOcOiegTs", "OHACTPOhKg", "BrXOc",
+  "jPOcOiegTs", "HACTPOhKg", "BrXOc",
 };
 
 static void menu_pause_open(void) {
