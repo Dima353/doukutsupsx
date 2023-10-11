@@ -795,7 +795,7 @@ static inline void menu_saveload_act_select_memcard(const u32 btn) {
   if (res == MCRD_UNFORMATTED) {
     // card is unformatted; if we're saving, offer to format it
     if (menu_id == MENU_SAVE)
-      menu_saveload_set_state(SLSTATE_FORMAT, "KHEOaXOcgMO OTrOPMATgPOBATs KAPTk. BrjOiHgTs?", 2);
+      menu_saveload_set_state(SLSTATE_FORMAT, "HEOaXOcgMO OTlOPMATgPOBATs KAPTk. BrjOiHgTs?", 2);
     else
       menu_saveload_set_state(SLSTATE_ERROR, "HEOaXOcgMO OTlOPMATgPOBATs KAPTk.", 1);
     return;
@@ -817,7 +817,7 @@ static inline void menu_saveload_act_select_memcard(const u32 btn) {
 
   if (res != MCRD_SUCCESS) {
     const char *err = (menu_id == MENU_SAVE) ?
-      "OogaKA fAjgCg HA KAPTk." : "cAHHrE HA KAPTE HE OaHAPkeEHr.";
+      "OogaKA COXPAHEHgv cAHHrX." : "HET COXPAHdHHrX cAHHrX.";
     menu_saveload_set_state(SLSTATE_ERROR, err, 1);
     return;
   }
@@ -826,7 +826,7 @@ static inline void menu_saveload_act_select_memcard(const u32 btn) {
 
   // can't load anything off of an empty save
   if (menu_id == MENU_LOAD && !saveload.slot_mask) {
-    menu_saveload_set_state(SLSTATE_ERROR, "cAHHrE HA KAPTE HE OaHAPkeEHr.", 1);
+    menu_saveload_set_state(SLSTATE_ERROR, "HET COXPAHdHHrX cAHHrX.", 1);
     return;
   }
 
@@ -837,7 +837,7 @@ static inline void menu_saveload_do_load(const int slot) {
   mcrd_result_t res = mcrd_save_read_slot(slot, &profile, sizeof(profile));
   if (res != MCRD_SUCCESS)  {
     // write error; bail
-    menu_saveload_set_state(SLSTATE_ERROR, "OogaKA fAjgCg HA KAPTk.", 1);
+    menu_saveload_set_state(SLSTATE_ERROR, "OogaKA COXPAHEHgv cAHHrX.", 1);
   } else {
     // try to actually load the game
     if (!profile_load(TRUE))
@@ -851,7 +851,7 @@ static inline void menu_saveload_do_save(const int slot) {
   mcrd_result_t res = mcrd_save_write_slot(slot, &profile, sizeof(profile));
   if (res != MCRD_SUCCESS) {
     // write error
-    menu_saveload_set_state(SLSTATE_ERROR, "OogaKA fAjgCg HA KAPTk.", 1);
+    menu_saveload_set_state(SLSTATE_ERROR, "OogaKA COXPAHEHgv cAHHrX.", 1);
   } else {
     // success; let the "Game saved" TSC message play out
     menu_saveload_close(TRUE);
@@ -867,7 +867,7 @@ static inline void menu_saveload_act_select_save(const u32 btn) {
 
   if (btn == IN_CANCEL) {
     // go back to memcard selection
-    menu_saveload_set_state(SLSTATE_SELECT_MEMCARD, "OogaKA fAjgCg HA KAPTk", saveload.num_cards);
+    menu_saveload_set_state(SLSTATE_SELECT_MEMCARD, "BraOP KAPTr jAMvTg", saveload.num_cards);
     // skip memcard 1 if we don't have it
     main_choices = &str_memcard[(saveload.cards[0].port == 1)];
     return;
@@ -908,7 +908,7 @@ static void menu_saveload_act(void) {
         menu_saveload_do_save(saveload.slot_to_save);
       } else if (btn == IN_CANCEL || (btn == IN_OK && main_sel == 1)) {
         // go back to save selection
-        menu_saveload_set_state(SLSTATE_SELECT_SAVE, "BraEPgTE lAhi", MCRD_MAX_SAVES);
+        menu_saveload_set_state(SLSTATE_SELECT_SAVE, "BraOP lAhiA", MCRD_MAX_SAVES);
       }
       break;
     case SLSTATE_FORMAT:
@@ -916,7 +916,7 @@ static void menu_saveload_act(void) {
         // user pressed yes, format that shit
         mcrd_result_t res = mcrd_card_format();
         if (res != MCRD_SUCCESS)
-          menu_saveload_set_state(SLSTATE_ERROR, "HE kcAiOCs OTlOPMATgPOBATs KAPTk.", 1);
+          menu_saveload_set_state(SLSTATE_ERROR, "HE kcAiOCs OTlOPMATgPOBATs KAPTk. ", 1);
         else
           menu_saveload_set_state(SLSTATE_SELECT_SAVE, "BraOP lAhiA", MCRD_MAX_SAVES);
       } else if (btn == IN_CANCEL || (btn == IN_OK && main_sel == 1)) {
@@ -1022,16 +1022,16 @@ static const struct option {
   s32 max;
   s32 def;
 } options[] = {
-  { OPT_SEP,    "fBkK",         NULL,             0,  0            },
-  { OPT_SCROLL, "bPOMKOCTs fBkKA",  &optmenu.vol_sfx, 8,  8            },
+  { OPT_SEP,    "HACTPOhKg fBkKA",         NULL,             0,  0            },
+  { OPT_SCROLL, "bPOMKOCTs tllEKTOB",  &optmenu.vol_sfx, 8,  8            },
   { OPT_SCROLL, "bPOMKOCTs MkfrKg",  &optmenu.vol_org, 8,  6            },
   { OPT_SEP,    "kjPABiEHgE",      NULL,             0,  0            },
   { OPT_BIND,   "jPreOK",          &input_binds[4],  0,  PAD_CROSS    },
   { OPT_BIND,   "ObOHs",          &input_binds[5],  0,  PAD_SQUARE   },
   { OPT_BIND,   "jPEc. OPkegE",   &input_binds[6],  0,  PAD_TRIANGLE },
   { OPT_BIND,   "CiEc. OPkegE",   &input_binds[7],  0,  PAD_CIRCLE   },
-  { OPT_BIND,   "KHOjKA jPgHvTs", &input_binds[10], 11, PAD_CROSS    },
-  { OPT_BIND,   "KHOjKA fAKPrTs", &input_binds[11], 10, PAD_CIRCLE   },
+  { OPT_BIND,   "KHOjKA BraOP", &input_binds[10], 11, PAD_CROSS    },
+  { OPT_BIND,   "KHOjKA OTMEHA", &input_binds[11], 10, PAD_CIRCLE   },
 };
 
 static void menu_options_open(void) {
