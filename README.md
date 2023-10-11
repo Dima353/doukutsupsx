@@ -36,7 +36,7 @@ Controls can be rebound in the Options menu.
     * on Windows: see [this section](https://github.com/ABelliqueux/nolibgs_hello_worlds#mips-toolchain-setup) or use WSL;
     * on Linux: see [this section](https://github.com/ABelliqueux/nolibgs_hello_worlds#install-your-distributions-mips-toolchain).
 2. Obtain [mkpsxiso](https://github.com/Lameguy64/mkpsxiso) and ensure it is in `PATH`.
-3. Clone this repository: `git clone --recursive https://github.com/fgsfdsfgs/doukutsupsx && cd doukutsupsx`
+3. Clone this repository: `git clone --recursive https://github.com/Dima353/doukutsupsx && cd doukutsupsx`
 4. Obtain [converted PsyQ 4.7 libraries](http://psx.arthus.net/sdk/Psy-Q/psyq-4.7-converted-full.7z) and extract them into `nugget/psyq/`.
 5. (Optional) If you have the PsyQ license files (`LICENSEA.DAT`, `LICENSEE.DAT`, `LICENSEJ.DAT`), put them into this folder and uncomment
 one of the `<license>` lines in `iso.xml` to inject it into the resulting ISO. This will give it a proper boot logo and might be required
